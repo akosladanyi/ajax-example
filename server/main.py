@@ -9,7 +9,20 @@ def root():
 
 @app.route('/tooltip/<rectname>', methods=['GET'])
 def rect_tooltip(rectname):
-    dct = {'r1': 'alma', 'r2': 'körte', 'r3': 'szőlő'}
+    dct = {
+        'r1': '<a href="http://hup.hu">alma</a>',
+        'r2': '<strong>körte</string>',
+        'r3': ('<table class="table-tooltip">'
+               '<tr>'
+               '<th>First</th>'
+               '<th>Second</th>'
+               '</tr>'
+               '<tr>'
+               '<td>szőlő</td>'
+               '<td>5</td>'
+               '</tr>'
+               '</table>')
+    }
     try:
         msg = dct[rectname]
     except KeyError:

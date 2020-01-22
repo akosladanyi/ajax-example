@@ -9,6 +9,12 @@
         border-radius: 4px;
         font-size: 13px;
       }
+      .table-tooltip {
+        border-collapse: collapse;
+      }
+      .table-tooltip th, .table-tooltip td {
+        border: 1px solid black;
+      }
     </style>
     <script src="https://unpkg.com/popper.js@1"></script>
     <script src="https://unpkg.com/tippy.js@5"></script>
@@ -19,6 +25,8 @@
           flipOnUpdate: true,
           trigger: 'click',
           theme: 'light',
+          interactive: true,
+          appendTo: document.body,
           onCreate(instance) {
             instance._isFetching = false;
             instance._isLoaded = false;
@@ -34,7 +42,7 @@
               .then(response => response.json())
               .then(jsonResponse => {
                 instance._isLoaded = true;
-                instance.setContent(`<span>${jsonResponse.message}</span>`);
+                instance.setContent(jsonResponse.message);
               })
               .catch(error => {
                 instance._error = error;
