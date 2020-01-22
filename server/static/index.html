@@ -1,5 +1,6 @@
 <html>
   <head>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@5/themes/light.css" />
     <style>
       #tooltip {
         background-color: #333;
@@ -17,6 +18,7 @@
           content: 'Loading...',
           flipOnUpdate: true,
           trigger: 'click',
+          theme: 'light',
           onCreate(instance) {
             instance._isFetching = false;
             instance._isLoaded = false;
