@@ -1,13 +1,6 @@
 <html>
   <head>
     <style>
-      .rectangle {
-        width: 200px;
-        height: 100px;
-        border-style: solid;
-        border-width: 3px;
-        margin: 10px;
-      }
       #tooltip {
         background-color: #333;
         color: white;
@@ -59,8 +52,10 @@
     </script>
   </head>
   <body>
-    <div class="rectangle" data-name="r1"></div>
-    <div class="rectangle" data-name="r2"></div>
-    <div class="rectangle" data-name="r3"></div>
+    <svg width="1000" height="1000">
+      <rect class="rectangle" data-name="r1" x="100" y="100" width="25.0" height="15.0" stroke="red" stroke-width="1px" fill="orange"></rect>
+      <rect class="rectangle" data-name="r2" x="130" y="100" width="25.0" height="15.0" stroke="red" stroke-width="1px" fill="orange"></rect>
+      <rect class="rectangle" data-name="r3" x="160" y="100" width="25.0" height="15.0" stroke="red" stroke-width="1px" fill="orange"></rect>
+    </svg>
   </body>
 </html>
