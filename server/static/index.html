@@ -8,36 +8,58 @@
         border-width: 3px;
         margin: 10px;
       }
+      #tooltip {
+        background-color: #333;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 13px;
+      }
     </style>
+    <script src="https://unpkg.com/popper.js@1"></script>
+    <script src="https://unpkg.com/tippy.js@5"></script>
     <script>
       window.addEventListener('load', (event) => {
-        document.querySelectorAll('.rectangle').forEach(item => {
-          var label = item.getElementsByClassName('rectangle-label')[0];
-          item.addEventListener('mouseover', event => {
-            var name = event.target.dataset.name;
-            fetch('/tooltip/' + encodeURIComponent(name))
-              .then(function(response) {
-                return response.json();
+        tippy('.rectangle', {
+          content: 'Loading...',
+          flipOnUpdate: true,
+          onCreate(instance) {
+            instance._isFetching = false;
+            instance._isLoaded = false;
+            instance._error = null;
+          },
+          onShow(instance) {
+            if (instance._isFetching || instance._isLoaded || instance._error) {
+              return;
+            }
+            instance._isFetching = true;
+            var rectName = instance.reference.dataset.name;
+            fetch('/tooltip/' + encodeURIComponent(rectName))
+              .then(response => response.json())
+              .then(jsonResponse => {
+                instance._isLoaded = true;
+                instance.setContent(`<span>${jsonResponse.message}</span>`);
               })
-              .then(function(jsonResponse) {
-                label.textContent = jsonResponse.message;
-                window.setTimeout(() => { label.textContent = ''; }, 3 * 1000);
+              .catch(error => {
+                instance._error = error;
+                instance.setContent(`Request failed. ${error}`);
+              })
+              .finally(() => {
+                instance._isFetching = false;
               });
-          });
+          },
+          onHidden(instance) {
+            instance.setContent('Loading...');
+            instance._isLoaded = false;
+            instance._error = null;
+          }
         });
-
       });
     </script>
   </head>
   <body>
-    <div class="rectangle" data-name="r1">
-      <span class="rectangle-label"></span>
-    </div>
-    <div class="rectangle" data-name="r2">
-      <span class="rectangle-label"></span>
-    </div>
-    <div class="rectangle" data-name="r3">
-      <span class="rectangle-label"></span>
-    </div>
+    <div class="rectangle" data-name="r1"></div>
+    <div class="rectangle" data-name="r2"></div>
+    <div class="rectangle" data-name="r3"></div>
   </body>
 </html>
