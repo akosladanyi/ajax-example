@@ -23,6 +23,7 @@
         tippy('.rectangle', {
           content: 'Loading...',
           flipOnUpdate: true,
+          trigger: 'click',
           onCreate(instance) {
             instance._isFetching = false;
             instance._isLoaded = false;
